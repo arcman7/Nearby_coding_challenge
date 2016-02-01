@@ -1,24 +1,23 @@
 class MessagesController < ApplicationController
-  include 'json'
+  require 'json'
 
   def create
     @new_message = Message.new(message_params)
     begin
       @new_message.save
     rescue ActiveRecord::RecordInvalid => e
-      render error: e.record.errors.details, status: 404
+      render error: e.record.errors.details, status: 400
     end
-    render :nothing, status: 204
-    # if @new_message.save
-    #   render :nothing, status: 200
-    # else
-    #   render :nothing, status: 404
-    # end
+    render nothing: true, status: 204
   end
 
   def show
     @message = Message.find_by(message_id: params[:id])
-    render: @message.serial_string
+    if @message
+      render @message.serial_string, status: 200
+    else
+      render "message not found", status: 404
+    end
   end
 
   private
@@ -31,5 +30,4 @@ class MessagesController < ApplicationController
   ##if we're saving the payload object only:
   #params.require(:payload).permit(:mimeType, :filename, :headers, :body, :parts)
   end
-
 end
