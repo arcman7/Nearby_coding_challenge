@@ -24,7 +24,7 @@ RSpec.describe MessagesController, type: :controller do
     it "can hit the route" do
       serial_string = TEST_MESSAGE.to_json
       message = Message.create(message_id: 77, serial_string: serial_string)
-      get "show", {message_id: message.message_id}
+      get :show, id: message.message_id, prefix: "message"
       expect(response.status).to eq(200)
     end
   end
