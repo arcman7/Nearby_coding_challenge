@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'json'
 
 #MESSAGE_JSON =
 RSpec.describe MessagesController, type: :controller do
@@ -21,8 +22,8 @@ RSpec.describe MessagesController, type: :controller do
 
   context "#show" do
     it "can hit the route" do
-      params = TEST_MESSAGE
-      message = Message.create(params)
+      serial_string = TEST_MESSAGE.to_json
+      message = Message.create(message_id: 77, serial_string: serial_string)
       get "show", {message_id: message.message_id}
       expect(response.status).to eq(200)
     end

@@ -16,18 +16,23 @@ class MessagesController < ApplicationController
     if @message
       render @message.serial_string, status: 200
     else
-      render "message not found", status: 404
+      render nothing: true, status: 404
     end
+  end
+
+  def test
+    #testing rails syntax, I'm rusty :/
+    render "hi",status: 200
   end
 
   private
 
   def message_params
-  ##if we're saving the entire message object:
-  serial_string = params.permit(:id, :threadID,:labelIds,:snippet, :historyId, :internalDate, :payload, :sizeEstimate).to_json
-  id = params[:id]
-  { serial_string: serial_string, message_id: id}
-  ##if we're saving the payload object only:
-  #params.require(:payload).permit(:mimeType, :filename, :headers, :body, :parts)
+    ##if we're saving the entire message object:
+    serial_string = params.permit(:id, :threadId,:labelIds,:snippet, :historyId, :internalDate, :payload, :sizeEstimate).to_json
+    id = params[:id]
+    { serial_string: serial_string, message_id: id}
+    ##if we're saving the payload object only:
+    #params.require(:payload).permit(:mimeType, :filename, :headers, :body, :parts)
   end
 end
