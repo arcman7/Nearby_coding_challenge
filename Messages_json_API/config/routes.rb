@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'messages/test' => 'messages#test'
-
   resources :messages, only: [:create, :show]
 
 
